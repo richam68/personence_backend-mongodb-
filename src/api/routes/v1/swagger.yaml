@@ -1,0 +1,4427 @@
+openapi: 3.0.0
+info:
+  title: OrgStack
+  description: An Entire Employee Management System From Hiring an Employee to Firing  an Employee
+  version: 1.0.1
+
+servers:
+  - url: http://localhost:9000/v1
+    description: localhost version of our app  e.g. Internal staging server for testing
+
+  - url: "{protocol}://backendmongo-dot-personencemoduleone.uc.r.appspot.com/v1/"
+    # variables:
+    #   protocol:
+    #     enum:
+    #       - http
+    #       - https
+    #     default: https
+    description: Live version of our app (Production Grade).
+
+Authorization: Basic ZGVtbzpwQDU1dzByZA==
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+paths:
+  /address/address:
+    get:
+      security:
+        - BasicAuth: []
+      tags:
+        - Address.
+      summary: Returns address of all Employee.
+      description: This Api will fetch all the address from the Database.
+      responses:
+        "200": #status code
+          description: returns an object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  add_line_1:
+                    type: string
+                  add_line_2:
+                    type: string
+                  city:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  pincode:
+                    type: string
+                  add_type:
+                    type: string
+                  organisation_id:
+                    type: string
+                  name:
+                    type: string
+                  code:
+                    type: string
+                  latitude:
+                    type: string
+                  longitude:
+                    type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+    post:
+      tags:
+        - Address.
+      summary: Creates a new address.
+      description: This Api will allow you to insert an address into the Database. Request Body field is Required
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                add_line_1:
+                  type: string
+                add_line_2:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                pincode:
+                  type: string
+                add_type:
+                  type: string
+                organisation_id:
+                  type: string
+                name:
+                  type: string
+                code:
+                  type: string
+                latitude:
+                  type: string
+                longitude:
+                  type: string
+                timestamps:
+                  type: boolean
+      responses:
+        "204": #status code
+          description: Created
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+    put:
+      tags:
+        - Address.
+      summary: Edit a user's Address.
+      description: Name field is Manadatory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                addressId:
+                  type: string
+                add_line_1:
+                  type: string
+                add_line_2:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                pincode:
+                  type: string
+                add_type:
+                  type: string
+                organisation_id:
+                  type: string
+                name:
+                  type: string
+                code:
+                  type: string
+                latitude:
+                  type: string
+                longitude:
+                  type: string
+                timestamps:
+                  type: boolean
+      responses:
+        "201": #status code
+          description: Edited
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /address/bulk:
+    post:
+      tags:
+        - Address.
+      summary: Api to Create Bulk Address.
+      description: This api will create bulk address in the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      add_line_1:
+                        type: string
+                      add_line_2:
+                        type: string
+                      city:
+                        type: string
+                      country:
+                        type: string
+                      state:
+                        type: string
+                      pincode:
+                        type: string
+                      add_type:
+                        type: string
+                      organisation_id:
+                        type: string
+                      name:
+                        type: string
+                      code:
+                        type: string
+                      latitude:
+                        type: string
+                      longitude:
+                        type: string
+                      timestamps:
+                        type: boolean
+      responses:
+        "201": #status code
+          description: Created
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /address/address/{_id}:
+    get:
+      tags:
+        - Address.
+      summary: Returns address based on Employee Id Single Address.
+      parameters:
+        - name: _id
+          default: 625809fd0e221e764cda34e0
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  add_line_1:
+                    type: string
+                  add_line_2:
+                    type: string
+                  city:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  pincode:
+                    type: string
+                  add_type:
+                    type: string
+                  organisation_id:
+                    type: string
+                  name:
+                    type: string
+                  code:
+                    type: string
+                  latitude:
+                    type: string
+                  longitude:
+                    type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+    delete:
+      tags:
+        - Address.
+      summary: Delete a user's Address.
+      description: Name field is Manadatory
+      parameters:
+        - name: _id
+          default: 635fd644e0c3ec4eb8395de3
+          in: path
+          schema:
+            type: string
+      responses:
+        "204": #status code
+          description: Deleted
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /address/organisation_id={organisation_id}:
+    get:
+      tags:
+        - Address.
+      summary: Returns  address based on organisation_id
+      parameters:
+        - name: organisation_id
+          default: 628f82583af5be574c44e23f
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  add_line_1:
+                    type: string
+                  add_line_2:
+                    type: string
+                  city:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  pincode:
+                    type: string
+                  add_type:
+                    type: string
+                  organisation_id:
+                    type: string
+                  name:
+                    type: string
+                  code:
+                    type: string
+                  latitude:
+                    type: string
+                  longitude:
+                    type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /address/organisation_id={organisation_id}/addressId={addressId}:
+    get:
+      tags:
+        - Address.
+      summary: Returns  a specific addres based on organisation_id and addressId
+      parameters:
+        - name: organisation_id
+          default: 628f82583af5be574c44e23f
+          in: path
+        - name: addressId
+          default: 6294e8be14047371f42cc768
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  add_line_1:
+                    type: string
+                  add_line_2:
+                    type: string
+                  city:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  pincode:
+                    type: string
+                  add_type:
+                    type: string
+                  organisation_id:
+                    type: string
+                  name:
+                    type: string
+                  code:
+                    type: string
+                  latitude:
+                    type: string
+                  longitude:
+                    type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /address/places:
+    post:
+      tags:
+        - Address.
+      summary: Api to get places.
+      description: This api will get places from google api.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: string
+          responses:
+            "200": #status code
+              description: returns an based object
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      add_line_1:
+                        type: string
+                      add_line_2:
+                        type: string
+                      city:
+                        type: string
+                      country:
+                        type: string
+                      state:
+                        type: string
+                      pincode:
+                        type: string
+                      add_type:
+                        type: string
+                      organisation_id:
+                        type: string
+                      name:
+                        type: string
+                      code:
+                        type: string
+                      latitude:
+                        type: string
+                      longitude:
+                        type: string
+                      timestamps:
+                        type: boolean
+            "400":
+              description: Bad request
+            "500":
+              description: internal server error
+
+  /adjustAttendance/adjustAttendance:
+    get:
+      tags:
+        - Adjust Attendance.
+      summary: API to Get all Attendance.
+      description: This api will fetch attendance.
+
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  employeeId:
+                    type: string
+                  clockIn:
+                    type: string
+                  preClockInDateTime:
+                    type: string
+                  clockOut:
+                    type: string
+                  preClockOutDateTime:
+                    type: string
+                  date:
+                    type: string
+                  clockInReason:
+                    type: string
+                  status:
+                    type: string
+                  attendanceId:
+                    type: string
+                  organisation_id:
+                    type: string
+                  timestamps:
+                    type: boolean
+                  __v:
+                    type: number
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+    post:
+      tags:
+        - Adjust Attendance.
+      summary: API to Add Attendance.
+      description: This api will add attendance.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+                employeeId:
+                  type: string
+                clockIn:
+                  type: string
+                preClockInDateTime:
+                  type: string
+                clockOut:
+                  type: string
+                preClockOutDateTime:
+                  type: string
+                date:
+                  type: string
+                clockInReason:
+                  type: string
+                status:
+                  type: string
+                attendanceId:
+                  type: string
+                organisation_id:
+                  type: string
+                timestamps:
+                  type: boolean
+                __v:
+                  type: number
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  employeeId:
+                    type: string
+                  clockIn:
+                    type: string
+                  preClockInDateTime:
+                    type: string
+                  clockOut:
+                    type: string
+                  preClockOutDateTime:
+                    type: string
+                  date:
+                    type: string
+                  clockInReason:
+                    type: string
+                  status:
+                    type: string
+                  attendanceId:
+                    type: string
+                  organisation_id:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  __v:
+                    type: number
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /adjustAttendance/adjustAttendance/{adjustAttendanceId}:
+    put:
+      tags:
+        - Adjust Attendance.
+      summary: API to Update Attendance.
+      description: This api will update attendance.
+      parameters:
+        - name: adjustAttendanceId
+          default: 5f0f5b0b0b0b0b0b0b0b0b0b
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+                employeeId:
+                  type: string
+                clockIn:
+                  type: string
+                preClockInDateTime:
+                  type: string
+                clockOut:
+                  type: string
+                preClockOutDateTime:
+                  type: string
+                date:
+                  type: string
+                clockInReason:
+                  type: string
+                status:
+                  type: string
+                attendanceId:
+                  type: string
+                organisation_id:
+                  type: string
+                timestamps:
+                  type: boolean
+                __v:
+                  type: number
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  employeeId:
+                    type: string
+                  clockIn:
+                    type: string
+                  preClockInDateTime:
+                    type: string
+                  clockOut:
+                    type: string
+                  preClockOutDateTime:
+                    type: string
+                  date:
+                    type: string
+                  clockInReason:
+                    type: string
+                  status:
+                    type: string
+                  attendanceId:
+                    type: string
+                  organisation_id:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  __v:
+                    type: number
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+    delete:
+      tags:
+        - Adjust Attendance.
+      summary: API to Delete Attendance.
+      description: This api will delete attendance.
+      parameters:
+        - name: adjustAttendanceId
+          default: 5f0f5b0b0b0b0b0b0b0b0b0b
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Entry Deleted Successfully.
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /adjustAttendance/employeeId={employeeId}:
+    get:
+      tags:
+        - Adjust Attendance.
+      summary: API to Get Attendance by Employee Id.
+      description: This api will fetch attendance by employee id.
+      parameters:
+        - name: employeeId
+          default: 2e94fa26-3c8f-4a2d-af68-f89e231bde10
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  employeeId:
+                    type: string
+                  clockIn:
+                    type: string
+                  preClockInDateTime:
+                    type: string
+                  clockOut:
+                    type: string
+                  preClockOutDateTime:
+                    type: string
+                  date:
+                    type: string
+                  clockInReason:
+                    type: string
+                  status:
+                    type: string
+                  attendanceId:
+                    type: string
+                  organisation_id:
+                    type: string
+                  timestamps:
+                    type: boolean
+                  __v:
+                    type: number
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /adjustAttendance/approval/emp_id={emp_id}:
+    get:
+      tags:
+        - Adjust Attendance.
+      summary: API to Get Approval Regulariation.
+      description: This api will fetch attendance by employee id.
+      parameters:
+        - name: emp_id
+          default: 07fdb8e9-bbd6-4fc3-98cf-67f5cced8676
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  employeeId:
+                    type: string
+                  clockIn:
+                    type: string
+                  preClockInDateTime:
+                    type: string
+                  clockOut:
+                    type: string
+                  preClockOutDateTime:
+                    type: string
+                  date:
+                    type: string
+                  clockInReason:
+                    type: string
+                  status:
+                    type: string
+                  attendanceId:
+                    type: string
+                  organisation_id:
+                    type: string
+                  timestamps:
+                    type: boolean
+                  __v:
+                    type: number
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /adjustAttendance/updateApproval:
+    put:
+      tags:
+        - Adjust Attendance.
+      summary: API to Update Approval Regulariation.
+      description: This api will update approval regulariation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+                employeeId:
+                  type: string
+                clockIn:
+                  type: string
+                preClockInDateTime:
+                  type: string
+                clockOut:
+                  type: string
+                preClockOutDateTime:
+                  type: string
+                date:
+                  type: string
+                clockInReason:
+                  type: string
+                status:
+                  type: string
+                  required: true
+                attendanceId:
+                  type: string
+                  required: true
+                organisation_id:
+                  type: string
+                remark:
+                  type: string
+                  required: true
+                timestamps:
+                  type: boolean
+                __v:
+                  type: number
+      responses:
+        200:
+          description: Updated Successfully
+        400:
+          description: Bad request
+        500:
+          description: internal server error
+
+  /attendance/attendancePolicies:
+    get:
+      tags:
+        - Attendance.
+      summary: API to Get Attendance Policies.
+      description: This api will fetch attendance policies.
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  organisation_id:
+                    type: string
+                  attendancePolicies:
+                    type: string
+                  timestamps:
+                    type: boolean
+                  __v:
+                    type: number
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+    post:
+      tags:
+        - Attendance.
+      summary: API to Add Single Attendance Policies.
+      description: This api will add an Single Attendance policies.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                totalHours:
+                  type: string
+                minimumHoursReqForDay:
+                  type: object
+                  properties:
+                    enableMode:
+                      type: string
+                    strictMode:
+                      type: object
+                      properties:
+                        mannualInput:
+                          type: object
+                          properties:
+                            fullDay:
+                              type: string
+                            halfDay:
+                              type: string
+                          shiftHours:
+                            type: object
+                            properties:
+                              fullDay:
+                                type: string
+                              halfDay:
+                                type: string
+                    lenientMode:
+                      type: object
+                      properties:
+                        perDay:
+                          type: string
+                        between:
+                          type: object
+                          properties:
+                            from:
+                              type: string
+                            to:
+                              type: string
+                showOvertime:
+                  type: string
+                includeWeekend:
+                  type: string
+                includeHoliday:
+                  type: string
+                carryOverTime:
+                  type: string
+                webCheckInOut:
+                  type: string
+                mobileCheckInOut:
+                  type: string
+                showAllCheckInOut:
+                  type: string
+                viewReportees:
+                  type: string
+                reporteesEntries:
+                  type: string
+                showNotify:
+                  type: array
+              timrStamp:
+                type: boolean
+      responses:
+        "200": #status code
+          description: returns an based object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  organisation_id:
+                    type: string
+                  attendancePolicies:
+                    type: string
+                  timestamps:
+                    type: boolean
+                  __v:
+                    type: number
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /attendance/attendancePolicies/{attendancePoliciesId}:
+    get:
+      tags:
+        - Adjust Attendance.
+      summary: API to Get Attendance Policies By Id.
+      description: This api will fetch attendance policies by id.
+  /attendance/client_id={client_id}:
+    get:
+      tags:
+        - Adjust Attendance.
+      summary: API to Get Attendance Policies By Client Id.
+      description: This api will fetch attendance policies by client id.
+
+  /employee/employee:
+    get:
+      tags:
+        - Employee.
+      summary: Returns all Employee from Database.
+      description: This Api will fetch all the employee information from the Database.
+      # parameters:
+      #   - name : organisation_id
+      #     default: 62b5b5e97a2eb335fc42e273
+      #     in  : path
+      #     schema:
+      #       type : string
+      responses:
+        "200": #status code
+          description: Returns all the Employee.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  roleId:
+                    type: string
+                  location_id:
+                    type: string
+                  location_name:
+                    type: string
+                  division_id:
+                    type: string
+                  division_name:
+                    type: string
+                  department_id:
+                    type: string
+                  department_name:
+                    type: string
+                  zone_id:
+                    type: string
+                  zone_name:
+                    type: string
+                  designation_id:
+                    type: string
+                  designation_name:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                  reporting_manager_name:
+                    type: string
+                  client_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  client_name:
+                    type: string
+                  emp_id:
+                    type: string
+                  organisation_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  set_id_series:
+                    type: string
+                  employee_email:
+                    type: string
+                  employee_gender:
+                    type: string
+                  employee_pan:
+                    type: string
+                  driving_license:
+                    type: string
+                  employment_type:
+                    type: string
+                  replacement_of:
+                    type: string
+                  notice_tenure:
+                    type: string
+                  leaving_date:
+                    type: string
+                  leaving_reason:
+                    type: string
+                  dob:
+                    type: string
+                  phone_number:
+                    type: string
+                  blood_group:
+                    type: string
+                  adhaar:
+                    type: string
+                  joining_date:
+                    type: string
+                  resingnation_date:
+                    type: string
+                  notice_expiry:
+                    type: string
+                  pf_number:
+                    type: string
+                  esic_number:
+                    type: string
+                  insurance_number:
+                    type: string
+                  profile_pic:
+                    type: string
+                  EmpCognitoID:
+                    type: string
+                    required: true
+                  isfirstlogin:
+                    type: string
+                  m_name:
+                    type: string
+                  l_name:
+                    type: string
+                  alternate_number:
+                    type: string
+                  address:
+                    type: string
+                  pincode:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  city:
+                    type: string
+                  probation_type:
+                    type: string
+                  probation_duration:
+                    type: string
+                  uan_no:
+                    type: string
+                  pf_no:
+                    type: string
+                  esic_no:
+                    type: string
+                  insurance_no:
+                    type: string
+                  insurance_pf:
+                    type: string
+                  hierarchy_id:
+                    type: number
+
+                  comapny:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_co":
+                          type: string
+                        "to_date_co":
+                          type: string
+                        "comapny_name":
+                          type: string
+                        "comapany_name":
+                          type: string
+                        "designation":
+                          type: string
+                        "reporting_to":
+                          type: string
+                        "mo_no":
+                          type: string
+                        "letter":
+                          type: string
+                        "remark":
+                          type: string
+
+                  education:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_edu":
+                          type: string
+                        "to_date_edu":
+                          type: string
+                        "course_name":
+                          type: string
+                        "institute_name":
+                          type: string
+                        "percent":
+                          type: string
+                        "certificate":
+                          type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+    post:
+      tags:
+        - Employee.
+      summary: Add Employee to Database.
+      description: This Api will add Employee to the Database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                roleId:
+                  type: string
+                location_id:
+                  type: string
+                location_name:
+                  type: string
+                division_id:
+                  type: string
+                division_name:
+                  type: string
+                department_id:
+                  type: string
+                department_name:
+                  type: string
+                zone_id:
+                  type: string
+                zone_name:
+                  type: string
+                designation_id:
+                  type: string
+                designation_name:
+                  type: string
+                reporting_manager_id:
+                  type: string
+                reporting_manager_name:
+                  type: string
+                client_id:
+                  type: string
+                client_name:
+                  type: string
+                emp_id:
+                  type: string
+                organisation_id:
+                  type: string
+                set_id_series:
+                  type: string
+                employee_email:
+                  type: string
+                employee_gender:
+                  type: string
+                employee_pan:
+                  type: string
+                driving_license:
+                  type: string
+                employment_type:
+                  type: string
+                replacement_of:
+                  type: string
+                notice_tenure:
+                  type: string
+                leaving_date:
+                  type: string
+                leaving_reason:
+                  type: string
+                dob:
+                  type: string
+                phone_number:
+                  type: string
+                blood_group:
+                  type: string
+                adhaar:
+                  type: string
+                joining_date:
+                  type: string
+                resingnation_date:
+                  type: string
+                notice_expiry:
+                  type: string
+                pf_number:
+                  type: string
+                esic_number:
+                  type: string
+                insurance_number:
+                  type: string
+                profile_pic:
+                  type: string
+                EmpCognitoID:
+                  type: string
+                  required: true
+                isfirstlogin:
+                  type: string
+                m_name:
+                  type: string
+                l_name:
+                  type: string
+                alternate_number:
+                  type: string
+                address:
+                  type: string
+                pincode:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                city:
+                  type: string
+                probation_type:
+                  type: string
+                probation_duration:
+                  type: string
+                uan_no:
+                  type: string
+                pf_no:
+                  type: string
+                esic_no:
+                  type: string
+                insurance_no:
+                  type: string
+                insurance_pf:
+                  type: string
+                hierarchy_id:
+                  type: number
+
+                comapny:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      "from_date_co":
+                        type: string
+                      "to_date_co":
+                        type: string
+                      "comapny_name":
+                        type: string
+                      "comapany_name":
+                        type: string
+                      "designation":
+                        type: string
+                      "reporting_to":
+                        type: string
+                      "mo_no":
+                        type: string
+                      "letter":
+                        type: string
+                      "remark":
+                        type: string
+
+                education:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      "from_date_edu":
+                        type: string
+                      "to_date_edu":
+                        type: string
+                      "course_name":
+                        type: string
+                      "institute_name":
+                        type: string
+                      "percent":
+                        type: string
+                      "certificate":
+                        type: string
+                timestamps:
+                  type: boolean
+
+      responses:
+        "200":
+          description: Employee added successfully.
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+    put:
+      tags:
+        - Employee.
+      summary: Edit Employee information to Database.
+      description: This Api will Edit Employee information to the Database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+                roleId:
+                  type: string
+                location_id:
+                  type: string
+                location_name:
+                  type: string
+                division_id:
+                  type: string
+                division_name:
+                  type: string
+                department_id:
+                  type: string
+                department_name:
+                  type: string
+                zone_id:
+                  type: string
+                zone_name:
+                  type: string
+                designation_id:
+                  type: string
+                designation_name:
+                  type: string
+                reporting_manager_id:
+                  type: string
+                reporting_manager_name:
+                  type: string
+                client_id:
+                  type: string
+                client_name:
+                  type: string
+                emp_id:
+                  type: string
+                organisation_id:
+                  type: string
+                set_id_series:
+                  type: string
+                employee_email:
+                  type: string
+                employee_gender:
+                  type: string
+                employee_pan:
+                  type: string
+                driving_license:
+                  type: string
+                employment_type:
+                  type: string
+                replacement_of:
+                  type: string
+                notice_tenure:
+                  type: string
+                leaving_date:
+                  type: string
+                leaving_reason:
+                  type: string
+                dob:
+                  type: string
+                phone_number:
+                  type: string
+                blood_group:
+                  type: string
+                adhaar:
+                  type: string
+                joining_date:
+                  type: string
+                resingnation_date:
+                  type: string
+                notice_expiry:
+                  type: string
+                pf_number:
+                  type: string
+                esic_number:
+                  type: string
+                insurance_number:
+                  type: string
+                profile_pic:
+                  type: string
+                EmpCognitoID:
+                  type: string
+                  required: true
+                isfirstlogin:
+                  type: string
+                m_name:
+                  type: string
+                l_name:
+                  type: string
+                alternate_number:
+                  type: string
+                address:
+                  type: string
+                pincode:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                city:
+                  type: string
+                probation_type:
+                  type: string
+                probation_duration:
+                  type: string
+                uan_no:
+                  type: string
+                pf_no:
+                  type: string
+                esic_no:
+                  type: string
+                insurance_no:
+                  type: string
+                insurance_pf:
+                  type: string
+                hierarchy_id:
+                  type: number
+
+                comapny:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      "from_date_co":
+                        type: string
+                      "to_date_co":
+                        type: string
+                      "comapny_name":
+                        type: string
+                      "comapany_name":
+                        type: string
+                      "designation":
+                        type: string
+                      "reporting_to":
+                        type: string
+                      "mo_no":
+                        type: string
+                      "letter":
+                        type: string
+                      "remark":
+                        type: string
+
+                education:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      "from_date_edu":
+                        type: string
+                      "to_date_edu":
+                        type: string
+                      "course_name":
+                        type: string
+                      "institute_name":
+                        type: string
+                      "percent":
+                        type: string
+                      "certificate":
+                        type: string
+                timestamps:
+                  type: boolean
+      responses:
+        "204":
+          description: Employee updated successfully.
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employeebyid/org_id={organisation_id}:
+    get:
+      tags:
+        - Employee.
+      summary: Returns the data of Employees based on organisation_id from Database.
+      description: This Api will match the organisation id passed throug parameters and will match it the existing organisation_id and will return all employees who have same organisation_id.
+      parameters:
+        - name: organisation_id
+          default: 62b5b5e97a2eb335fc42e273
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the Employee.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  roleId:
+                    type: string
+                  location_id:
+                    type: string
+                  location_name:
+                    type: string
+                  division_id:
+                    type: string
+                  division_name:
+                    type: string
+                  department_id:
+                    type: string
+                  department_name:
+                    type: string
+                  zone_id:
+                    type: string
+                  zone_name:
+                    type: string
+                  designation_id:
+                    type: string
+                  designation_name:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                  reporting_manager_name:
+                    type: string
+                  client_id:
+                    type: string
+                  client_name:
+                    type: string
+                  emp_id:
+                    type: string
+                  organisation_id:
+                    type: string
+                  set_id_series:
+                    type: string
+                  employee_email:
+                    type: string
+                  employee_gender:
+                    type: string
+                  employee_pan:
+                    type: string
+                  driving_license:
+                    type: string
+                  employment_type:
+                    type: string
+                  replacement_of:
+                    type: string
+                  notice_tenure:
+                    type: string
+                  leaving_date:
+                    type: string
+                  leaving_reason:
+                    type: string
+                  dob:
+                    type: string
+                  phone_number:
+                    type: string
+                  blood_group:
+                    type: string
+                  adhaar:
+                    type: string
+                  joining_date:
+                    type: string
+                  resingnation_date:
+                    type: string
+                  notice_expiry:
+                    type: string
+                  pf_number:
+                    type: string
+                  esic_number:
+                    type: string
+                  insurance_number:
+                    type: string
+                  profile_pic:
+                    type: string
+                  EmpCognitoID:
+                    type: string
+                    required: true
+                  isfirstlogin:
+                    type: string
+                  m_name:
+                    type: string
+                  l_name:
+                    type: string
+                  alternate_number:
+                    type: string
+                  address:
+                    type: string
+                  pincode:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  city:
+                    type: string
+                  probation_type:
+                    type: string
+                  probation_duration:
+                    type: string
+                  uan_no:
+                    type: string
+                  pf_no:
+                    type: string
+                  esic_no:
+                    type: string
+                  insurance_no:
+                    type: string
+                  insurance_pf:
+                    type: string
+                  hierarchy_id:
+                    type: number
+
+                  comapny:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_co":
+                          type: string
+                        "to_date_co":
+                          type: string
+                        "comapny_name":
+                          type: string
+                        "comapany_name":
+                          type: string
+                        "designation":
+                          type: string
+                        "reporting_to":
+                          type: string
+                        "mo_no":
+                          type: string
+                        "letter":
+                          type: string
+                        "remark":
+                          type: string
+
+                  education:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_edu":
+                          type: string
+                        "to_date_edu":
+                          type: string
+                        "course_name":
+                          type: string
+                        "institute_name":
+                          type: string
+                        "percent":
+                          type: string
+                        "certificate":
+                          type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employees/org_id={org_id}/{emp_id}:
+    get:
+      tags:
+        - Employee.
+      summary: Get Leave Data by Reporting Manager Id.
+      description: This Api will match the emp_id passed throug parameters and will match it the existing emp_id and will return all employees who have same emp_id.
+      parameters:
+        - name: org_id
+          default: 62b5b5e97a2eb335fc42e273
+          in: path
+          schema:
+            type: string
+        - name: emp_id
+          default: 62b5b5e97a2eb335fc42e273
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the Employee.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  roleId:
+                    type: string
+                  location_id:
+                    type: string
+                  location_name:
+                    type: string
+                  division_id:
+                    type: string
+                  division_name:
+                    type: string
+                  department_id:
+                    type: string
+                  department_name:
+                    type: string
+                  zone_id:
+                    type: string
+                  zone_name:
+                    type: string
+                  designation_id:
+                    type: string
+                  designation_name:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                  reporting_manager_name:
+                    type: string
+                  client_id:
+                    type: string
+                  client_name:
+                    type: string
+                  emp_id:
+                    type: string
+                  organisation_id:
+                    type: string
+                  set_id_series:
+                    type: string
+                  employee_email:
+                    type: string
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/empadjatt/org_id={org_id}/{emp_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee by Reporting Manager Id.
+      description: This Api will match the organisation id passed throug parameters and will match it the existing organisation_id and will return all employees who have same organisation_id.
+      parameters:
+        - name: org_id
+          default: 62c51c804d0f4f001346fc24
+          in: path
+          schema:
+            type: string
+        - name: emp_id
+          default: 62cfec60c1862300159bd4de
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the Employee.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  roleId:
+                    type: string
+                  location_id:
+                    type: string
+                  location_name:
+                    type: string
+                  division_id:
+                    type: string
+                  division_name:
+                    type: string
+                  department_id:
+                    type: string
+                  department_name:
+                    type: string
+                  zone_id:
+                    type: string
+                  zone_name:
+                    type: string
+                  designation_id:
+                    type: string
+                  designation_name:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                  reporting_manager_name:
+                    type: string
+                  client_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  client_name:
+                    type: string
+                  emp_id:
+                    type: string
+                  organisation_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  set_id_series:
+                    type: string
+                  employee_email:
+                    type: string
+                  employee_gender:
+                    type: string
+                  employee_pan:
+                    type: string
+                  driving_license:
+                    type: string
+                  employment_type:
+                    type: string
+                  replacement_of:
+                    type: string
+                  notice_tenure:
+                    type: string
+                  leaving_date:
+                    type: string
+                  leaving_reason:
+                    type: string
+                  dob:
+                    type: string
+                  phone_number:
+                    type: string
+                  blood_group:
+                    type: string
+                  adhaar:
+                    type: string
+                  joining_date:
+                    type: string
+                  resingnation_date:
+                    type: string
+                  notice_expiry:
+                    type: string
+                  pf_number:
+                    type: string
+                  esic_number:
+                    type: string
+                  insurance_number:
+                    type: string
+                  profile_pic:
+                    type: string
+                  EmpCognitoID:
+                    type: string
+                    required: true
+                  isfirstlogin:
+                    type: string
+                  m_name:
+                    type: string
+                  l_name:
+                    type: string
+                  alternate_number:
+                    type: string
+                  address:
+                    type: string
+                  pincode:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  city:
+                    type: string
+                  probation_type:
+                    type: string
+                  probation_duration:
+                    type: string
+                  uan_no:
+                    type: string
+                  pf_no:
+                    type: string
+                  esic_no:
+                    type: string
+                  insurance_no:
+                    type: string
+                  insurance_pf:
+                    type: string
+                  hierarchy_id:
+                    type: number
+
+                  comapny:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_co":
+                          type: string
+                        "to_date_co":
+                          type: string
+                        "comapny_name":
+                          type: string
+                        "comapany_name":
+                          type: string
+                        "designation":
+                          type: string
+                        "reporting_to":
+                          type: string
+                        "mo_no":
+                          type: string
+                        "letter":
+                          type: string
+                        "remark":
+                          type: string
+
+                  education:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_edu":
+                          type: string
+                        "to_date_edu":
+                          type: string
+                        "course_name":
+                          type: string
+                        "institute_name":
+                          type: string
+                        "percent":
+                          type: string
+                        "certificate":
+                          type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/empbyrptid/org_id={org_id}/{emp_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee by Reporting Manager Id.
+      description: This Api will match the organisation id passed throug parameters and will match it the existing organisation_id and will return all employees who have same organisation_id.
+      parameters:
+        - name: org_id
+          default: 62c51c804d0f4f001346fc24
+          in: path
+          schema:
+            type: string
+        - name: emp_id
+          default: 62cfec60c1862300159bd4de
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns all the Employee.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  roleId:
+                    type: string
+                  location_id:
+                    type: string
+                  location_name:
+                    type: string
+                  division_id:
+                    type: string
+                  division_name:
+                    type: string
+                  department_id:
+                    type: string
+                  department_name:
+                    type: string
+                  zone_id:
+                    type: string
+                  zone_name:
+                    type: string
+                  designation_id:
+                    type: string
+                  designation_name:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                  reporting_manager_name:
+                    type: string
+                  client_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  client_name:
+                    type: string
+                  emp_id:
+                    type: string
+                  organisation_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  set_id_series:
+                    type: string
+                  employee_email:
+                    type: string
+                  employee_gender:
+                    type: string
+                  employee_pan:
+                    type: string
+                  driving_license:
+                    type: string
+                  employment_type:
+                    type: string
+                  replacement_of:
+                    type: string
+                  notice_tenure:
+                    type: string
+                  leaving_date:
+                    type: string
+                  leaving_reason:
+                    type: string
+                  dob:
+                    type: string
+                  phone_number:
+                    type: string
+                  blood_group:
+                    type: string
+                  adhaar:
+                    type: string
+                  joining_date:
+                    type: string
+                  resingnation_date:
+                    type: string
+                  notice_expiry:
+                    type: string
+                  pf_number:
+                    type: string
+                  esic_number:
+                    type: string
+                  insurance_number:
+                    type: string
+                  profile_pic:
+                    type: string
+                  EmpCognitoID:
+                    type: string
+                    required: true
+                  isfirstlogin:
+                    type: string
+                  m_name:
+                    type: string
+                  l_name:
+                    type: string
+                  alternate_number:
+                    type: string
+                  address:
+                    type: string
+                  pincode:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  city:
+                    type: string
+                  probation_type:
+                    type: string
+                  probation_duration:
+                    type: string
+                  uan_no:
+                    type: string
+                  pf_no:
+                    type: string
+                  esic_no:
+                    type: string
+                  insurance_no:
+                    type: string
+                  insurance_pf:
+                    type: string
+                  hierarchy_id:
+                    type: number
+
+                  comapny:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_co":
+                          type: string
+                        "to_date_co":
+                          type: string
+                        "comapny_name":
+                          type: string
+                        "comapany_name":
+                          type: string
+                        "designation":
+                          type: string
+                        "reporting_to":
+                          type: string
+                        "mo_no":
+                          type: string
+                        "letter":
+                          type: string
+                        "remark":
+                          type: string
+
+                  education:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_edu":
+                          type: string
+                        "to_date_edu":
+                          type: string
+                        "course_name":
+                          type: string
+                        "institute_name":
+                          type: string
+                        "percent":
+                          type: string
+                        "certificate":
+                          type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employee/organisation_id={organisation_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get all Employee by Organisation Id.
+      description: This Api will match the organisation id passed throug parameters and will match it the existing organisation_id and will return all employees who have same organisation_id.
+      parameters:
+        - name: organisation_id
+          default: 62c51c804d0f4f001346fc24
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns all the Employee.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  roleId:
+                    type: string
+                  location_id:
+                    type: string
+                  location_name:
+                    type: string
+                  division_id:
+                    type: string
+                  division_name:
+                    type: string
+                  department_id:
+                    type: string
+                  department_name:
+                    type: string
+                  zone_id:
+                    type: string
+                  zone_name:
+                    type: string
+                  designation_id:
+                    type: string
+                  designation_name:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                  reporting_manager_name:
+                    type: string
+                  client_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  client_name:
+                    type: string
+                  emp_id:
+                    type: string
+                  organisation_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  set_id_series:
+                    type: string
+                  employee_email:
+                    type: string
+                  employee_gender:
+                    type: string
+                  employee_pan:
+                    type: string
+                  driving_license:
+                    type: string
+                  employment_type:
+                    type: string
+                  replacement_of:
+                    type: string
+                  notice_tenure:
+                    type: string
+                  leaving_date:
+                    type: string
+                  leaving_reason:
+                    type: string
+                  dob:
+                    type: string
+                  phone_number:
+                    type: string
+                  blood_group:
+                    type: string
+                  adhaar:
+                    type: string
+                  joining_date:
+                    type: string
+                  resingnation_date:
+                    type: string
+                  notice_expiry:
+                    type: string
+                  pf_number:
+                    type: string
+                  esic_number:
+                    type: string
+                  insurance_number:
+                    type: string
+                  profile_pic:
+                    type: string
+                  EmpCognitoID:
+                    type: string
+                    required: true
+                  isfirstlogin:
+                    type: string
+                  m_name:
+                    type: string
+                  l_name:
+                    type: string
+                  alternate_number:
+                    type: string
+                  address:
+                    type: string
+                  pincode:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  city:
+                    type: string
+                  probation_type:
+                    type: string
+                  probation_duration:
+                    type: string
+                  uan_no:
+                    type: string
+                  pf_no:
+                    type: string
+                  esic_no:
+                    type: string
+                  insurance_no:
+                    type: string
+                  insurance_pf:
+                    type: string
+                  hierarchy_id:
+                    type: number
+
+                  comapny:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_co":
+                          type: string
+                        "to_date_co":
+                          type: string
+                        "comapny_name":
+                          type: string
+                        "comapany_name":
+                          type: string
+                        "designation":
+                          type: string
+                        "reporting_to":
+                          type: string
+                        "mo_no":
+                          type: string
+                        "letter":
+                          type: string
+                        "remark":
+                          type: string
+
+                  education:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_edu":
+                          type: string
+                        "to_date_edu":
+                          type: string
+                        "course_name":
+                          type: string
+                        "institute_name":
+                          type: string
+                        "percent":
+                          type: string
+                        "certificate":
+                          type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employee/EmpCognitoID={EmpCognitoID}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee by EmpCognitoID.
+      description: This Api will match the EmpCognitoID passed throug parameters and will match it the existing EmpCognitoID and will return the employee who have same EmpCognitoID.
+      parameters:
+        - name: EmpCognitoID
+          default: 236e8cf3-ce51-45a7-a231-1b79b9ef0b0e
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the Employee.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  roleId:
+                    type: string
+                  location_id:
+                    type: string
+                  location_name:
+                    type: string
+                  division_id:
+                    type: string
+                  division_name:
+                    type: string
+                  department_id:
+                    type: string
+                  department_name:
+                    type: string
+                  zone_id:
+                    type: string
+                  zone_name:
+                    type: string
+                  designation_id:
+                    type: string
+                  designation_name:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                  reporting_manager_name:
+                    type: string
+                  client_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  client_name:
+                    type: string
+                  emp_id:
+                    type: string
+                  organisation_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  set_id_series:
+                    type: string
+                  employee_email:
+                    type: string
+                  employee_gender:
+                    type: string
+                  employee_pan:
+                    type: string
+                  driving_license:
+                    type: string
+                  employment_type:
+                    type: string
+                  replacement_of:
+                    type: string
+                  notice_tenure:
+                    type: string
+                  leaving_date:
+                    type: string
+                  leaving_reason:
+                    type: string
+                  dob:
+                    type: string
+                  phone_number:
+                    type: string
+                  blood_group:
+                    type: string
+                  adhaar:
+                    type: string
+                  joining_date:
+                    type: string
+                  resingnation_date:
+                    type: string
+                  notice_expiry:
+                    type: string
+                  pf_number:
+                    type: string
+                  esic_number:
+                    type: string
+                  insurance_number:
+                    type: string
+                  profile_pic:
+                    type: string
+                  EmpCognitoID:
+                    type: string
+                    required: true
+                  isfirstlogin:
+                    type: string
+                  m_name:
+                    type: string
+                  l_name:
+                    type: string
+                  alternate_number:
+                    type: string
+                  address:
+                    type: string
+                  pincode:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  city:
+                    type: string
+                  probation_type:
+                    type: string
+                  probation_duration:
+                    type: string
+                  uan_no:
+                    type: string
+                  pf_no:
+                    type: string
+                  esic_no:
+                    type: string
+                  insurance_no:
+                    type: string
+                  insurance_pf:
+                    type: string
+                  hierarchy_id:
+                    type: number
+
+                  comapny:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_co":
+                          type: string
+                        "to_date_co":
+                          type: string
+                        "comapny_name":
+                          type: string
+                        "comapany_name":
+                          type: string
+                        "designation":
+                          type: string
+                        "reporting_to":
+                          type: string
+                        "mo_no":
+                          type: string
+                        "letter":
+                          type: string
+                        "remark":
+                          type: string
+
+                  education:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_edu":
+                          type: string
+                        "to_date_edu":
+                          type: string
+                        "course_name":
+                          type: string
+                        "institute_name":
+                          type: string
+                        "percent":
+                          type: string
+                        "certificate":
+                          type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employees/id={id}:
+    delete:
+      tags:
+        - Employee.
+      summary: Deletes an Employee based on  id.
+      description: This Api will delete an Employee based on  id.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The Employee id
+      responses:
+        "204":
+          description: Employee deleted successfully
+        "404":
+          description: Bad request
+        "500":
+          description: internal server error.
+  /employee/employee/empIsLoginUpdate:
+    put:
+      tags:
+        - Employee.
+      summary: API to update Employee by EmpCognitoID.
+      description: This Api will match the EmpCognitoID passed throug parameters and will match it the existing EmpCognitoID and will update the employee who have same EmpCognitoID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                EmpCognitoID:
+                  type: string
+                  required: true
+                isfirstlogin:
+                  type: string
+                organisation_id:
+                  type: string
+      responses:
+        "204":
+          description: Employee updated successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employee/bulk:
+    post:
+      tags:
+        - Employee.
+      summary: API to create bulk Employee.
+      description: This Api will create bulk Employee.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                roleId:
+                  type: string
+                location_id:
+                  type: string
+                location_name:
+                  type: string
+                division_id:
+                  type: string
+                division_name:
+                  type: string
+                department_id:
+                  type: string
+                department_name:
+                  type: string
+                zone_id:
+                  type: string
+                zone_name:
+                  type: string
+                designation_id:
+                  type: string
+                designation_name:
+                  type: string
+                reporting_manager_id:
+                  type: string
+                reporting_manager_name:
+                  type: string
+                client_id:
+                  type: mongoose.Schema.Types.ObjectId
+                client_name:
+                  type: string
+                emp_id:
+                  type: string
+                organisation_id:
+                  type: mongoose.Schema.Types.ObjectId
+                set_id_series:
+                  type: string
+                employee_email:
+                  type: string
+                employee_gender:
+                  type: string
+                employee_pan:
+                  type: string
+                driving_license:
+                  type: string
+                employment_type:
+                  type: string
+                replacement_of:
+                  type: string
+                notice_tenure:
+                  type: string
+                leaving_date:
+                  type: string
+                leaving_reason:
+                  type: string
+                dob:
+                  type: string
+                phone_number:
+                  type: string
+                blood_group:
+                  type: string
+                adhaar:
+                  type: string
+                joining_date:
+                  type: string
+                resingnation_date:
+                  type: string
+                notice_expiry:
+                  type: string
+                pf_number:
+                  type: string
+                esic_number:
+                  type: string
+                insurance_number:
+                  type: string
+                profile_pic:
+                  type: string
+                EmpCognitoID:
+                  type: string
+                  required: true
+                isfirstlogin:
+                  type: string
+                m_name:
+                  type: string
+                l_name:
+                  type: string
+                alternate_number:
+                  type: string
+                address:
+                  type: string
+                pincode:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                city:
+                  type: string
+                probation_type:
+                  type: string
+                probation_duration:
+                  type: string
+                uan_no:
+                  type: string
+                pf_no:
+                  type: string
+                esic_no:
+                  type: string
+                insurance_no:
+                  type: string
+                insurance_pf:
+                  type: string
+                hierarchy_id:
+                  type: number
+
+                comapny:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      "from_date_co":
+                        type: string
+                      "to_date_co":
+                        type: string
+                      "comapny_name":
+                        type: string
+                      "comapany_name":
+                        type: string
+                      "designation":
+                        type: string
+                      "reporting_to":
+                        type: string
+                      "mo_no":
+                        type: string
+                      "letter":
+                        type: string
+                      "remark":
+                        type: string
+
+                education:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      "from_date_edu":
+                        type: string
+                      "to_date_edu":
+                        type: string
+                      "course_name":
+                        type: string
+                      "institute_name":
+                        type: string
+                      "percent":
+                        type: string
+                      "certificate":
+                        type: string
+                timestamps:
+                  type: boolean
+
+      responses:
+        "200":
+          description: Returns all the Employee.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  roleId:
+                    type: string
+                  location_id:
+                    type: string
+                  location_name:
+                    type: string
+                  division_id:
+                    type: string
+                  division_name:
+                    type: string
+                  department_id:
+                    type: string
+                  department_name:
+                    type: string
+                  zone_id:
+                    type: string
+                  zone_name:
+                    type: string
+                  designation_id:
+                    type: string
+                  designation_name:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                  reporting_manager_name:
+                    type: string
+                  client_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  client_name:
+                    type: string
+                  emp_id:
+                    type: string
+                  organisation_id:
+                    type: mongoose.Schema.Types.ObjectId
+                  set_id_series:
+                    type: string
+                  employee_email:
+                    type: string
+                  employee_gender:
+                    type: string
+                  employee_pan:
+                    type: string
+                  driving_license:
+                    type: string
+                  employment_type:
+                    type: string
+                  replacement_of:
+                    type: string
+                  notice_tenure:
+                    type: string
+                  leaving_date:
+                    type: string
+                  leaving_reason:
+                    type: string
+                  dob:
+                    type: string
+                  phone_number:
+                    type: string
+                  blood_group:
+                    type: string
+                  adhaar:
+                    type: string
+                  joining_date:
+                    type: string
+                  resingnation_date:
+                    type: string
+                  notice_expiry:
+                    type: string
+                  pf_number:
+                    type: string
+                  esic_number:
+                    type: string
+                  insurance_number:
+                    type: string
+                  profile_pic:
+                    type: string
+                  EmpCognitoID:
+                    type: string
+                    required: true
+                  isfirstlogin:
+                    type: string
+                  m_name:
+                    type: string
+                  l_name:
+                    type: string
+                  alternate_number:
+                    type: string
+                  address:
+                    type: string
+                  pincode:
+                    type: string
+                  country:
+                    type: string
+                  state:
+                    type: string
+                  city:
+                    type: string
+                  probation_type:
+                    type: string
+                  probation_duration:
+                    type: string
+                  uan_no:
+                    type: string
+                  pf_no:
+                    type: string
+                  esic_no:
+                    type: string
+                  insurance_no:
+                    type: string
+                  insurance_pf:
+                    type: string
+                  hierarchy_id:
+                    type: number
+
+                  comapny:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_co":
+                          type: string
+                        "to_date_co":
+                          type: string
+                        "comapny_name":
+                          type: string
+                        "comapany_name":
+                          type: string
+                        "designation":
+                          type: string
+                        "reporting_to":
+                          type: string
+                        "mo_no":
+                          type: string
+                        "letter":
+                          type: string
+                        "remark":
+                          type: string
+
+                  education:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "from_date_edu":
+                          type: string
+                        "to_date_edu":
+                          type: string
+                        "course_name":
+                          type: string
+                        "institute_name":
+                          type: string
+                        "percent":
+                          type: string
+                        "certificate":
+                          type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/client_id={client_id}/organisation_id={organisation_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get all Employee by Contractual Client Id.
+      description: This Api will get all Employee.
+      parameters:
+        - in: path
+          name: client_id
+          required: true
+          default: 632836a811b17d00138e5bb0
+          schema:
+            type: string
+          description: The client id
+        - in: path
+          name: organisation_id
+          required: true
+          default: 62c51c804d0f4f001346fc24
+          schema:
+            type: string
+          description: The organisation id
+      responses:
+        "200":
+          description: Employee fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/empcode:
+    put:
+      tags:
+        - Employee.
+      summary: API to get Employee code
+      description: This Api will get Employee code.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orgName:
+                  type: string
+                location_name:
+                  type: string
+                client_name:
+                  type: string
+      responses:
+        "200":
+          description: Employee code fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/updateEmployeeMapping:
+    put:
+      tags:
+        - Employee.
+      summary: API to update Employee Mapping
+      description: This Api will update Employee Mapping.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                zone_id:
+                  type: string
+                zone_name:
+                  type: string
+                department_id:
+                  type: string
+                department_name:
+                  type: string
+                division_id:
+                  type: string
+                division_name:
+                  type: string
+                location_id:
+                  type: string
+                location_name:
+                  type: string
+                designation_id:
+                  type: string
+                designation_name:
+                  type: string
+                client_id:
+                  type: string
+                client_name:
+                  type: string
+                reporting_manager_id:
+                  type: string
+                reporting_manager_name:
+                  type: string
+      responses:
+        "200":
+          description: Employee Mapping updated successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/updateEmployeeDetail:
+    put:
+      tags:
+        - Employee.
+      summary: API to update Employee Detail
+      description: This Api will update Employee Detail.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                EmpCognitoID:
+                  type: string
+                employment_type:
+                  type: string
+                joining_date:
+                  type: string
+                notice_expiry:
+                  type: string
+                probation_type:
+                  type: string
+                probation_duration:
+                  type: string
+                confirmation_date:
+                  type: string
+                uan_no:
+                  type: string
+                pf_no:
+                  type: string
+                esic_no:
+                  type: string
+                insurance_no:
+                  type: string
+                insurance_pf:
+                  type: string
+      responses:
+        "200":
+          description: Employee Detail updated successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employee/hierarchy:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee Hierarchy
+      description: This Api will get Employee Hierarchy.
+      deprecated: true
+
+      responses:
+        "200":
+          description: Employee Hierarchy fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employee/{organisation_id}/{searchType}/{searchId}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee by searchType and searchId
+      description: This Api will get Employee by searchType and searchId.
+      parameters:
+        - in: path
+          name: organisation_id
+          required: true
+          default: 62c51c804d0f4f001346fc24
+          schema:
+            type: string
+          description: The organisation id
+        - in: path
+          name: searchType
+          required: true
+          default: zone
+          schema:
+            type: string
+          description: The searchType
+        - in: path
+          name: searchId
+          required: true
+          default: 62c51c804d0f4f001346fc24
+          schema:
+            type: string
+          description: The searchId
+      responses:
+        "200":
+          description: Employee fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+    put:
+      tags:
+        - Employee.
+      summary: API to update Employee by searchType and searchId
+      description: This Api will update Employee by searchType and searchId.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchType:
+                  type: string
+                searchId:
+                  type: string
+                organisation_id:
+                  type: string
+        responses:
+          "200":
+            description: Employee updated successfully
+          "400":
+            description: Bad request
+          "500":
+            description: internal server error
+  /employee/getOneEmployeeWithZone/{organisation_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee by organisation_id
+      description: This Api will get Employee by organisation_id.
+      parameters:
+        - in: path
+          name: organisation_id
+          required: true
+          default: 62c51c804d0f4f001346fc24
+          schema:
+            type: string
+          description: The organisation id
+      responses:
+        "200":
+          description: Employee fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/organisationidanddob/organisation_id={organisation_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee by organisation_id and dob
+      description: This Api will get Employee by organisation_id and dob.
+      parameters:
+        - in: path
+          name: organisation_id
+          required: true
+          default: 62c51c804d0f4f001346fc24
+          schema:
+            type: string
+          description: The organisation id
+      responses:
+        "200":
+          description: Employee fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employee/days={days}/organisation_id={organisation_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee by organisation_id and days
+      description: This Api will get Employee by organisation_id and days.
+      parameters:
+        - in: path
+          name: organisation_id
+          required: true
+          default: 62c51c804d0f4f001346fc24
+          schema:
+            type: string
+          description: The organisation id
+        - in: path
+          name: days
+          required: true
+          default: 30
+          schema:
+            type: string
+          description: The days
+      responses:
+        "200":
+          description: Employee fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/employee/filter/{organisation_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee by organisation_id and filter
+      description: This Api will get Employee by organisation_id and filter.
+      deprecated: true
+      parameters:
+        - in: path
+          name: organisation_id
+          required: true
+          default: 62c51c804d0f4f001346fc24
+          schema:
+            type: string
+          description: The organisation id
+      responses:
+        "200":
+          description: Employee fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/anniversary/organisation_id={organisation_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee anniversary by organisation_id.
+      description: This Api will get Employee by organisation_id and anniversary.
+      parameters:
+        - in: path
+          name: organisation_id
+          required: true
+          default: 62c51c804d0f4f001346fc24
+          schema:
+            type: string
+          description: The organisation id
+      responses:
+        "200":
+          description: Employee fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/serviceanniversary/organisation_id={organisation_id}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee service anniversary by organisation_id.
+      description: This Api will get Employee by organisation_id and service anniversary.
+      parameters:
+        - in: path
+          name: organisation_id
+          required: true
+          default: 62a2ffdd0ebc8d001db61ad4
+          schema:
+            type: string
+          description: The organisation id
+      responses:
+        "200":
+          description: Employee fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+  /employee/roleId/{EmpCognitoID}:
+    get:
+      tags:
+        - Employee.
+      summary: API to get Employee by EmpCognitoID.
+      description: This Api will get Employee by EmpCognitoID.
+      parameters:
+        - in: path
+          name: EmpCognitoID
+          required: true
+          default: 2e66b648-8148-4938-85b9-6e98bf38dd34
+          schema:
+            type: string
+          description: The EmpCognitoID
+      responses:
+        "200":
+          description: Employee fetched successfully
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/clockInOut/date={date}/empId={empId}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: API to get all attendence by date from Database.
+      description: This Api will match the date and empId passed throug parameters and will match it the existing date and empId and will return all ClockInOut who have same date and empId.
+      parameters:
+        - name: date
+          default: "2022-08-05"
+          in: path
+          schema:
+            type: string
+        - name: empId
+          default: 07fdb8e9-bbd6-4fc3-98cf-67f5cced8676
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clockInLatLang:
+                    type: object
+                    properties:
+                      latitude:
+                        type: string
+                      longitude:
+                        type: string
+                  _id:
+                    type: string
+                  employeeId:
+                    type: string
+                  clockIn:
+                    type: string
+                  clockInOutDate:
+                    type: string
+                  clockOut:
+                    type: string
+                  systemId:
+                    type: string
+                  clockOutLatLang:
+                    type: object
+                    properties:
+                      latitude:
+                        type: string
+                      longitude:
+                        type: string
+                  totalHours:
+                    type: number
+                  breakHourDetail:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        breakStartTime:
+                          type: string
+                        breakEndTime:
+                          type: string
+                        breakDuration:
+                          type: number
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/clockInOut/empId={empId}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: API to get all Attendence from Database.
+      description: This Api will match the empId passed throug parameters and will match it the existing empId and will return all ClockInOut who have same empId.This Api will return last clockinOut details of an Employee.
+      parameters:
+        - name: empId
+          required: true
+          default: 07fdb8e9-bbd6-4fc3-98cf-67f5cced8676
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  punchInTime:
+                    type: string
+                  punchOutTime:
+                    type: string
+                  punchDate:
+                    type: string
+                  attendanceId:
+                    type: string
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/clockInOut:
+    post:
+      tags:
+        - ClockInOut.
+      summary: Insert a ClockInOut into the Database. This api is used in Punchin.
+      description: This Api will create a new ClockInOut.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                employeeId:
+                  type: string
+                clockInOutDate:
+                  type: string
+                clockInLocation:
+                  type: string
+                clockInImg:
+                  type: string
+                clockInServerTime:
+                  type: string
+                clockInLatLang:
+                  type: object
+                  properties:
+                    "latitude":
+                      type: string
+                    "longitude":
+                      type: string
+                clockOutLocation:
+                  type: string
+                clockOutImg:
+                  type: string
+                clockOutServerTime:
+                  type: string
+                clockOutLatLang:
+                  type: string
+                totalHours:
+                  type: number
+                systemId:
+                  type: string
+                organisation_id:
+                  type: string
+                deviceType:
+                  type: string
+                timestamps:
+                  type: boolean
+
+      responses:
+        "201":
+          description: ClockInOut created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  employeeId:
+                    type: string
+                  clockInOutDate:
+                    type: string
+                  clockInLocation:
+                    type: string
+                  clockInImg:
+                    type: string
+                  clockInServerTime:
+                    type: string
+                  clockInLatLang:
+                    type: object
+                    properties:
+                      "latitude":
+                        type: string
+                      "longitude":
+                        type: string
+                  clockOutLocation:
+                    type: string
+                  clockOutImg:
+                    type: string
+                  clockOutServerTime:
+                    type: string
+                  clockOutLatLang:
+                    type: string
+                  totalHours:
+                    type: number
+                  systemId:
+                    type: string
+                  organisation_id:
+                    type: string
+                  deviceType:
+                    type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+    put:
+      tags:
+        - ClockInOut.
+      summary: This Api is Used in Punch Out. Updates the ClockInOut into the Database.
+      description: This Api will update the ClockInOut.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clockInTime:
+                  type: string
+                clockOut:
+                  type: string
+                clockIn:
+                  type: string
+                _id:
+                  type: string
+                employeeId:
+                  type: string
+                clockOutLocation:
+                  type: string
+                clockOutImg:
+                  type: string
+                clockOutServerTime:
+                  type: string
+                clockOutLatLang:
+                  type: string
+                breakHourDetails:
+                  type: string
+                systemId:
+                  type: string
+                mobileCheckInOut:
+                  type: string
+                organisation_id:
+                  type: string
+                deviceType:
+                  type: string
+                timestamps:
+                  type: boolean
+      responses:
+        "200":
+          description: ClockInOut updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clockInTime:
+                    type: string
+                  clockOut:
+                    type: string
+                  clockIn:
+                    type: string
+                  _id:
+                    type: string
+                  employeeId:
+                    type: string
+                  clockOutLocation:
+                    type: string
+                  clockOutImg:
+                    type: string
+                  clockOutServerTime:
+                    type: string
+                  clockOutLatLang:
+                    type: string
+                  breakHourDetails:
+                    type: string
+                  systemId:
+                    type: string
+                  mobileCheckInOut:
+                    type: string
+                  organisation_id:
+                    type: string
+                  deviceType:
+                    type: string
+                  timestamps:
+                    type: boolean
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/clockInOut/{attId}:
+    get:
+      deprecated: true
+      tags:
+        - ClockInOut.
+      summary: Get Working Hours by Date from the  Database.
+      description: This Api will match the attId passed throug parameters and will match it the existing attId and will return all ClockInOut who have same attId.
+
+      parameters:
+        - name: attId
+          required: true
+          default: 62ed333c7beb9d4318c6f84e
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clockInLatLang:
+                    type: object
+                    properties:
+                      "latitude":
+                        type: string
+                      "longitude":
+                        type: string
+                  _id:
+                    type: string
+                  employeeId:
+                    type: string
+                  clockIn:
+                    type: string
+                  clockInOutDate:
+                    type: string
+                  clockOut:
+                    type: string
+                  systemId:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  __v:
+                    type: number
+                  clockOutLatLang:
+                    type: object
+                    "latitude":
+                      type: string
+                    "longitude":
+                      type: string
+                  totalHours:
+                    type: number
+                  # breakHourDetails:
+                  #   type: array
+                  #   items:
+                  #     type: object
+                  #   properties:
+                  #     breakHourDetail:
+                  #       type: string
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/clock/date={date}/employeeId={employeeId}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: Api used to Get Working Hours by Date from the  Database.
+      description:
+        This Api will match the date and employeeId passed throug parameters and will match it the existing date and employeeId and will return all ClockInOut who have same date and employeeId.
+        #  This Api is used for Get Working Hours By Date.
+      parameters:
+        - name: date
+          required: true
+          default: "2022-08-05"
+          in: path
+          schema:
+            type: string
+        - name: employeeId
+          required: true
+          default: 07fdb8e9-bbd6-4fc3-98cf-67f5cced8676
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  totalQuantity:
+                    type: number
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/clock:
+    post:
+      tags:
+        - ClockInOut.
+      summary: API  is used to get working hours period by date from the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                employeeId:
+                  type: string
+                  default: 07fdb8e9-bbd6-4fc3-98cf-67f5cced8676
+                fromdate:
+                  type: string
+                  default: "2022-08-05"
+                todate:
+                  type: string
+                  default: "2022-11-02"
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  totalQuantity:
+                    type: number
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/attendancesummary/:{employeeId}/:{fromDate}/:{toDate}/:{organisation_id}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: This API  is used in Productivity to get how many employees are in active and Inactive.
+      description: This Api will match the employeeId,
+        fromDate, toDate and organisation_id passed throug parameters and
+        it will calculate and will return us the Attendance Summary.
+      parameters:
+        - name: employeeId
+          required: true
+          default: 07fdb8e9-bbd6-4fc3-98cf-67f5cced8676
+          in: path
+          schema:
+            type: string
+        - name: fromDate
+          required: true
+          default: "2022-08-01"
+          in: path
+          schema:
+            type: string
+        - name: toDate
+          required: true
+          default: "2022-08-31"
+          in: path
+          schema:
+            type: string
+        - name: organisation_id
+          required: true
+          default: "62b5b5e97a2eb335fc42e273"
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  presentDaysCount:
+                    type: number
+                  workingDays:
+                    type: number
+                  totalDays:
+                    type: number
+                  weeklyOff:
+                    type: number
+                  holidayCount:
+                    type: number
+                  leave:
+                    type: number
+                  absentWithoutPay:
+                    type: number
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/totalpresent/{organisation_id}/{clockInOutDate}/{emp_id}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: Returns the data of ClockInOut based on organisation_id, clockInOutDate and emp_id from Database.
+      description:
+        This Api will match the organisation_id, clockInOutDate and emp_id passed throug parameters and will match it the existing organisation_id, clockInOutDate and emp_id and will return all ClockInOut who have same organisation_id, clockInOutDate and emp_id.
+        Employees which are in Team status. how may employees are present will be return
+      parameters:
+        - name: organisation_id
+          required: true
+          default: "62b5b5e97a2eb335fc42e273"
+          in: path
+          schema:
+            type: string
+        - name: clockInOutDate
+          required: true
+          default: "2022-08-11"
+          in: path
+          schema:
+            type: string
+        - name: emp_id
+          required: true
+          default: "07fdb8e9-bbd6-4fc3-98cf-67f5cced8676"
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                  empList:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        clockIn:
+                          type: string
+                        deviceType:
+                          type: string
+                        clockOut:
+                          type: string
+                        profile_pic:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              url:
+                                type: string
+                        name:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/teamemployee/{date}/{emp_id}/{organisation_id}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: Returns the data of ClockInOut based on date, emp_id and organisation_id from Database To fetch how many employees are present.
+      description:
+        This Api will match the date, emp_id and organisation_id passed throug parameters and will match it the existing date, emp_id and organisation_id and will return all ClockInOut who have same date, emp_id and organisation_id.
+        Employees which are in Team status.
+      parameters:
+        - name: date
+          required: true
+          default: "2022-08-05"
+          in: path
+          schema:
+            type: string
+        - name: emp_id
+          required: true
+          default: "FAC-RRR-LOO-0022-2022"
+          in: path
+          schema:
+            type: string
+        - name: organisation_id
+          required: true
+          default: "626947ae8215e511e8f4f3c5"
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                properties:
+                  _id:
+                    type: string
+                  clockIn:
+                    type: string
+                  clockOut:
+                    type: string
+                  location:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        latitude:
+                          type: number
+                        longitude:
+                          type: number
+                  totalHours:
+                    type: number
+                  employeedata:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type:
+                        isfirstlogin:
+                          type: string
+                        emp_id:
+                          type: string
+                        profile_pic:
+                          type: string
+                        name:
+                          type: string
+                        m_name:
+                          type: string
+                        l_name:
+                          type: string
+                        dob:
+                          type: string
+                        employee_gender:
+                          type: string
+                        employee_email:
+                          type: string
+                        phone_number:
+                          type: string
+                        address:
+                          type: string
+                        pincode:
+                          type: string
+                        country:
+                          type: string
+                        state":
+                          type: string
+                        city:
+                          type: string
+                        EmpCognitoID:
+                          type: string
+                        organisation_id:
+                          type: string
+                        comapny:
+                          type: array
+                          items:
+                            type: object
+                        education:
+                          type: array
+                          items:
+                            type: object
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                        __v:
+                          type: string
+
+                        client_id:
+                          type: string
+                        client_name:
+                          type: string
+                        department_id:
+                          type: string
+                        department_name:
+                          type: string
+                        designation_id:
+                          type: string
+                        designation_name:
+                          type: string
+                        division_id:
+                          type: string
+                        division_name:
+                          type: string
+                        location_id:
+                          type: string
+                        location_name:
+                          type: string
+                        reporting_manager_id:
+                          type: string
+                        reporting_manager_name:
+                          type: string
+                        zone_id:
+                          type: string
+                        zone_name:
+                          type: string
+                        roleId:
+                          type: string
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/teamemployee/{organisation_id}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: Returns the data of ClockInOut based on Team Employee and organisation_id from Database.
+      description:
+        This Api will match the teamemployee and organisation_id passed throug parameters and will match it the existing teamemployee and organisation_id and will return all ClockInOut who have same teamemployee and organisation_id.
+        Employees which are in Team status.
+      parameters:
+        - name: organisation_id
+          required: true
+          default: "62c51c804d0f4f001346fc24"
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    clockIn:
+                      type: string
+                    clockOut:
+                      type: string
+                    location:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          latitude:
+                            type: number
+                          longitude:
+                            type: number
+                    totalHours:
+                      type: number
+                    employeedata:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          _id:
+                            type:
+                          isfirstlogin:
+                            type: string
+                          emp_id:
+                            type: string
+                          profile_pic:
+                            type: string
+                          name:
+                            type: string
+                          m_name:
+                            type: string
+                          l_name:
+                            type: string
+                          dob:
+                            type: string
+                          employee_gender:
+                            type: string
+                          employee_email:
+                            type: string
+                          phone_number:
+                            type: string
+                          address:
+                            type: string
+                          pincode:
+                            type: string
+                          country:
+                            type: string
+                          state":
+                            type: string
+                          city:
+                            type: string
+                          EmpCognitoID:
+                            type: string
+                          organisation_id:
+                            type: string
+                          comapny:
+                            type: array
+                            items:
+                              type: object
+                          education:
+                            type: array
+                            items:
+                              type: object
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+                          __v:
+                            type: string
+
+                          client_id:
+                            type: string
+                          client_name:
+                            type: string
+                          department_id:
+                            type: string
+                          department_name:
+                            type: string
+                          designation_id:
+                            type: string
+                          designation_name:
+                            type: string
+                          division_id:
+                            type: string
+                          division_name:
+                            type: string
+                          location_id:
+                            type: string
+                          location_name:
+                            type: string
+                          reporting_manager_id:
+                            type: string
+                          reporting_manager_name:
+                            type: string
+                          zone_id:
+                            type: string
+                          zone_name:
+                            type: string
+                          roleId:
+                            type: string
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/total/CheckInType/{organisation_id}/{searchDate}/{emp_id}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: How many Employees Checked in According to Date .
+      description:
+        This Api will match the organisation_id, searchDate and emp_id passed throug parameters and will match it the existing organisation_id, searchDate and emp_id and will return all ClockInOut who have same organisation_id, searchDate and emp_id.
+        Returns the data of ClockInOut based on organisation_id, searchDate and emp_id from Database.
+      parameters:
+        - name: organisation_id
+          required: true
+          default: "62c51c804d0f4f001346fc24"
+          in: path
+          schema:
+            type: string
+        - name: searchDate
+          required: true
+          default: "2022-08-10"
+          in: path
+          schema:
+            type: string
+        - name: emp_id
+          required: true
+          default: "b515badc-7719-4f40-952b-2d21b76a829f"
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  empList:
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        clockIn:
+                          type: string
+                        deviceType:
+                          type: string
+                        clockOut:
+                          type: string
+                        profile_pic:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              url:
+                                type: string
+                        name:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/teamWorkHrs/:
+    post:
+      tags:
+        - ClockInOut.
+      summary: Creates a new TeamWorkHrs.
+      description: This Api will create a new TeamWorkHrs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organisation_id:
+                  type: string
+                todate:
+                  type: string
+                fromdate:
+                  type: string
+      responses:
+        "200":
+          description: Returns all the TeamWorkHrs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organisation_id:
+                    type: string
+                  todate:
+                    type: string
+                  fromdate:
+                    type: string
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/totalpresentAvg/{emp_id}/{organisation_id}/{fromdate}/{todate}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: Returns the data of Average Present Employee by Date from the  Database.
+      description: This Api will match the emp_id, organisation_id, fromdate and todate passed throug parameters and will match it the existing emp_id, organisation_id, fromdate and todate and will return all ClockInOut who have same emp_id, organisation_id, fromdate and todate.
+      parameters:
+        - name: emp_id
+          required: true
+          default: "b515badc-7719-4f40-952b-2d21b76a829f"
+          in: path
+          schema:
+            type: string
+        - name: organisation_id
+          required: true
+          default: "62c51c804d0f4f001346fc24"
+          in: path
+          schema:
+            type: string
+        - name: fromdate
+          required: true
+          default: "2022-08-05"
+          in: path
+          schema:
+            type: string
+        - name: todate
+          required: true
+          default: "2022-08-10"
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/lateCheckIn/{organisation_id}/{searchDate}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: Returns the data of Total Employee Late Check in from Database.
+      description: This Api will match the organisation_id and searchDate passed throug parameters and will match it the existing organisation_id and searchDate and will return all ClockInOut who have same organisation_id and searchDate.
+      parameters:
+        - name: organisation_id
+          required: true
+          default: "62ee025fe6b92a16d4ecc680"
+          in: path
+          schema:
+            type: string
+        - name: searchDate
+          required: true
+          default: "2022-08-05"
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lateCheckIn:
+                    type: number
+                  empList:
+                    type: array
+                    items:
+                      type: number
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
+
+  /clockInOut/empOnLeave/{organisation_id}/{searchDate}:
+    get:
+      tags:
+        - ClockInOut.
+      summary: Returns the data of Total Employees on Leave from Database.
+      description: This Api will match the organisation_id and searchDate passed throug parameters and will match it the existing organisation_id and searchDate and will return all ClockInOut who have same organisation_id and searchDate.
+      parameters:
+        - name: organisation_id
+          required: true
+          default: "62b5b5e97a2eb335fc42e273"
+          in: path
+          schema:
+            type: string
+        - name: searchDate
+          required: true
+          default: "2022-08-23  "
+          in: path
+          schema:
+            type: string
+      responses:
+        "200": #status code
+          description: Returns all the ClockInOut.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isfirstlogin:
+                    type: boolean
+                  _id:
+                    type: string
+                  employee_email:
+                    type: string
+                  EmpCognitoID:
+                    type: string
+                  name:
+                    type: string
+                  timestamps:
+                    type: boolean
+                  __v:
+                    type: number
+                  organisation_id:
+                    type: string
+                  client_id:
+                    type: string
+                  client_name:
+                    type: string
+                  department_id:
+                    type: string
+                  department_name:
+                    type: string
+                  designation_id:
+                    type: string
+                  designation_name:
+                    type: string
+                  division_id:
+                    type: string
+                  division_name:
+                    type: string
+                  location_id:
+                    type: string
+                  location_name:
+                    type: string
+                  zone_id":
+                    type: string
+                  zone_name:
+                    type: string
+                  emp_id:
+                    type: string
+                  comapny:
+                    type: array
+                    items:
+                      type: string
+                  education:
+                    type: array
+                    items:
+                      type: string
+                  profile_pic:
+                    type: string
+                  employment_type:
+                    type: string
+                  esic_no:
+                    type: string
+                  insurance_no:
+                    type: string
+                  insurance_pf:
+                    type: string
+                  joining_date:
+                    type: string
+                  notice_expiry:
+                    type: string
+                  pf_no:
+                    type: string
+                  probation_duration:
+                    type: string
+                  probation_type:
+                    type: string
+                  uan_no:
+                    type: string
+                  dob:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                  reporting_manager_name:
+                    type: string
+                  roleId:
+                    type: string
+                  l_name:
+                    type: string
+                  actual_DOL:
+                    type: string
+                  date_of_leaving:
+                    type: string
+                  date_of_resignation:
+                    type: string
+                  reason_of_leaving:
+                    type: string
+                  role:
+                    type: string
+                  employee_gender:
+                    type: string
+                  id:
+                    type: string
+
+        "400":
+          description: Bad request
+        "500":
+          description: internal server error
